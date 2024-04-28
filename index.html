@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Budget Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .expenses {
+      margin-top: 20px;
+    }
+
+    .expenses ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .expenses li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .expenses .delete-button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .total-expenses {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Budget Tracker</h1>
+
+  <div class="container">
+    <div class="input-group">
+      <label for="expense-description">Expense Description:</label>
+      <input type="text" id="expense-description" placeholder="Enter expense description">
+    </div>
+
+    <div class="input-group">
+      <label for="expense-amount">Expense Amount:</label>
+      <input type="number" id="expense-amount" placeholder="Enter expense amount">
+    </div>
+
+    <button id="add-expense">Add Expense</button>
+
+    <div class="expenses">
+      <h2>Expenses</h2>
+      <ul id="expense-list"></ul>
+    </div>
+
+    <div class="total-expenses">
+      <h2>Total Expenses: <span id="total-expenses">0</span></h2>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript code here
+    const expenseList = document.getElementById('expense-list');
+    const totalExpenses = document.getElementById('total-expenses');
+
+    let expenses = [];
+
+    function addExpense() {
+      const description = document.getElementById('expense-description').value;
+      const amount = parseFloat(document.getElementById('expense-amount').value);
+
+      if (description && !isNaN(amount)) {
+        expenses.push({ description, amount });
+
+        const li = document.createElement('li');
+        li.innerHTML = `${description} - $${amount.toFixed(2)} <button class="delete-button">Delete</button>`;
+        expenseList.appendChild(li);
+
+        updateTotalExpenses();
+
+        // Clear input fields
+        document.getElementById('expense-description').value = '';
+        document.getElementById('expense-amount').value = '';
+      }
+    }
+
+    function deleteExpense(event) {
+      const li = event.target.parentNode;
+      const index = Array.from(expenseList.children).indexOf(li);
+      expenses.splice(index, 1);
+      expenseList.removeChild(li);
+      updateTotalExpenses();
+    }
+
+    function updateTotalExpenses() {
+      const total = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+      totalExpenses.document.getElementById('add-expense').addEventListener('click', addExpense);
+      expenseList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-button')) {
+          deleteExpense(event);
+        }
+      });
