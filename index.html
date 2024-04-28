@@ -91,7 +91,6 @@
   </div>
 
   <script>
-    // JavaScript code here
     const expenseList = document.getElementById('expense-list');
     const totalExpenses = document.getElementById('total-expenses');
 
@@ -126,9 +125,6 @@
 
     function updateTotalExpenses() {
       const total = expenses.reduce((acc, expense) => acc + expense.amount, 0);
-      totalExpenses.document.getElementById('add-expense').addEventListener('click', addExpense);
-      expenseList.addEventListener('click', function(event) {
-        if (event.target.classList.contains('delete-button')) {
-          deleteExpense(event);
-        }
-      });
+      totalExpenses.innerHTML = `$${total.toFixed(2)}`;
+    }
+
